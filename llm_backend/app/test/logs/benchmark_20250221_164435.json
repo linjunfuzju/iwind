@@ -1,0 +1,86 @@
+{
+  "test_info": {
+    "timestamp": "2025-02-21T16:44:35.657017",
+    "model": "deepseek-r1:1.5b",
+    "server": "http://192.168.110.131:11434"
+  },
+  "single_request_performance": {
+    "avg_tokens": 300.0,
+    "avg_generation_time": 2.3636666666666666,
+    "avg_total_time": 4.816566012,
+    "avg_tokens_per_second": 126.99569933034873,
+    "individual_results": [
+      {
+        "success": true,
+        "eval_count": 300,
+        "eval_duration_seconds": 2.363,
+        "total_duration_seconds": 9.55444909,
+        "tokens_per_second": 126.95725772323317
+      },
+      {
+        "success": true,
+        "eval_count": 300,
+        "eval_duration_seconds": 2.294,
+        "total_duration_seconds": 2.379678751,
+        "tokens_per_second": 130.77593722755012
+      },
+      {
+        "success": true,
+        "eval_count": 300,
+        "eval_duration_seconds": 2.434,
+        "total_duration_seconds": 2.515570195,
+        "tokens_per_second": 123.25390304026294
+      }
+    ]
+  },
+  "concurrency_test": {
+    "optimal_concurrent": 4,
+    "max_throughput": 193.80027963884632,
+    "all_results": [
+      {
+        "concurrent_requests": 2,
+        "total_requests": 10,
+        "success_rate": 1.0,
+        "total_tokens": 2819,
+        "average_generation_time": 3.0,
+        "average_total_time": 3.0927677574,
+        "average_tokens_per_second": 94.14590299472351,
+        "actual_total_time": 18.709346294403076,
+        "system_throughput": 150.67335628093576
+      },
+      {
+        "concurrent_requests": 3,
+        "total_requests": 10,
+        "success_rate": 1.0,
+        "total_tokens": 2527,
+        "average_generation_time": 3.6094,
+        "average_total_time": 3.7112287873,
+        "average_tokens_per_second": 70.09369423950032,
+        "actual_total_time": 14.596843957901001,
+        "system_throughput": 173.11961457477813
+      },
+      {
+        "concurrent_requests": 4,
+        "total_requests": 10,
+        "success_rate": 1.0,
+        "total_tokens": 2528,
+        "average_generation_time": 4.1601,
+        "average_total_time": 4.255859714,
+        "average_tokens_per_second": 60.772800827300614,
+        "actual_total_time": 13.04435682296753,
+        "system_throughput": 193.80027963884632
+      },
+      {
+        "concurrent_requests": 5,
+        "total_requests": 10,
+        "success_rate": 1.0,
+        "total_tokens": 2756,
+        "average_generation_time": 5.6273,
+        "average_total_time": 5.732057194,
+        "average_tokens_per_second": 49.02936916137064,
+        "actual_total_time": 13.472891569137573,
+        "system_throughput": 204.55890896599988
+      }
+    ]
+  }
+}

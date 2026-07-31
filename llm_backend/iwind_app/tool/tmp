@@ -1,0 +1,49 @@
+{
+        "type": "object",
+        "properties": {
+            "fst": {
+                "type": "object",
+                "description": "Parameters extracted from the OpenFAST .fst main configuration file",
+                "properties": {
+                    "TMax": {
+                        "type": "number",
+                        "description": "Total run time (s). Example: 60",
+                    },
+                    "DT": {
+                        "type": "number",
+                        "description": "Module time step (s). Example: 0.005",
+                    },
+                    "CompInflow": {
+                        "type": "integer",
+                        "enum": [0, 1, 2],
+                        "description": "Compute inflow wind velocities. {0=still air; 1=InflowWind; 2=external from ExtInflow}",
+                    },
+                    "CompServo": {
+                        "type": "integer",
+                        "enum": [0, 1],
+                        "description": "Compute control and electrical-drive dynamics. {0=None; 1=ServoDyn}",
+                    },
+                    "CompMooring": {
+                        "type": "integer",
+                        "enum": [0, 1, 2, 3, 4],
+                        "description": "Compute mooring system. {0=None; 1=MAP++; 2=FEAMooring; 3=MoorDyn; 4=OrcaFlex}",
+                    },
+                    "WtrDpth": {
+                        "type": "number",
+                        "description": "Water depth (m). Example: 20",
+                    },
+                    "DT_Out": {
+                        "type": "number",
+                        "description": "Time step for tabular output (s). Example: 0.05",
+                    },
+                    "OutFileFmt": {
+                        "type": "integer",
+                        "enum": [1, 2, 3, 4, 5],
+                        "description": "Format for output file. {1=text, 2=binary, 3=both, 4=uncompressed binary, 5=both 1 and 4}",
+                    },
+                },
+                "required": [],
+            },
+        },
+        "required": [],
+    }

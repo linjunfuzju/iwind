@@ -1,0 +1,4 @@
+2025-06-24 21:53:58.089 | ERROR    | __main__:init_db:30 - Database initialization failed: (pymysql.err.OperationalError) (1045, "Access denied for user 'root'@'172.17.0.1' (using password: YES)")
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-06-24 21:53:58.090 | ERROR    | __main__:main:39 - An error occurred: (pymysql.err.OperationalError) (1045, "Access denied for user 'root'@'172.17.0.1' (using password: YES)")
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
