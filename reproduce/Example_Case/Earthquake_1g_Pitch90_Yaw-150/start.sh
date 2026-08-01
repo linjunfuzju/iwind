@@ -1,0 +1,31 @@
+#!/bin/bash
+echo "==============================================="
+echo " ZWind 仿真环境 - 科研复现"
+echo "==============================================="
+echo ""
+echo "【项目说明】"
+echo "本项目用于复现论文工作中的台风工况/地震模拟工况仿真。"
+echo "通过批量运行仿真、后处理和可视化，完成 336 种工况组合的分析。"
+echo ""
+echo "【工况类型】（共4种，每种84种参数组合 = 336种）"
+echo "  Typhoon_V40  : 台风工况（风速40m/s）"
+echo "  Typhoon_V60  : 台风工况（风速60m/s）"
+echo "  Earthquake_1g: 地震工况（1g加速度）"
+echo "  Earthquake_2g: 地震工况（2g加速度）"
+echo ""
+echo "【硬件需求】单种工况~20GB，总计~80GB"
+echo "【运行时间】全部跑完约48小时"
+echo "【中断方式】Ctrl+C 三次可安全中断"
+echo ""
+echo "【结果目录】/app/simulation_runs/"
+echo ""
+echo "==============================================="
+echo "检查 API 配置..."
+if [ ! -f /app/.env ] && [ ! -f /app/.env.template ]; then
+    echo "[警告] 未找到 .env 配置文件，LLM 功能可能不可用"
+fi
+echo ""
+echo "开始启动 API 服务..."
+echo "==============================================="
+cd /app
+python3 -m uvicorn main:app --host 0.0.0.0 --port 8005

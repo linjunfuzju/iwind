@@ -1,0 +1,68 @@
+----------- Foundyn v1.01.x Seismic Wave Input File (N,m,rad)-------------------
+OC3 Monopile configuration (siesmic wave generation only).
+-------------------------- GENERATION CONTROL  -------------------------------------------------------------
+1                                  SeismicMode       - variable specifying the type of motion (1 = user-defined or 2 = synthetic Motion) for the platform
+1                                   PtfmMotionType    - Type of motion specified: 1=acceleration; 2=velocity; and 3=displacement
+9.81 PtfmMotionFactorX - Factor to convert the specified motion to units of m for displacement, m/s for velocity, and m/s^2 for acceleration
+0.0                                PtfmMotionFactorY  - Factor to convert the specified motion to units of m for displacement, m/s for velocity, and m/s^2 for acceleration
+0.0                                PtfmMotionFactorZ  - Factor to convert the specified motion to units of m for displacement, m/s for velocity, and m/s^2 for acceleration
+12.0                               ActFreq           - The frequency used to generate synthetic motion
+150                                  EqDelay           - The number of seconds to delay the start of the earthquake
+24                                 Seis_numPts       - Number of soil nodes connecting to soil reaction curves (-)
+------------ Files containing seismic wave  ----------------
+JointID        JointXss        JointYss        JointZss           PtfmXMotionFn           PtfmYMotionFn          PtfmZMotionFn        -------- Name of file containing motion in the X/Y/Z direction
+  (-)             (m)           (m)               (m)                (-)                       (-)                    (-)
+  1	           0.00000 	       0.00000 	     -31.001         "earthquake/Ko1995/acc_-31m.txt"        " "      ""
+  2	           0.00000 	       0.00000 	     -34.001         "earthquake/Ko1995/acc_-34m.txt"        " "      ""
+  3	           0.00000 	       0.00000 	     -37.001         "earthquake/Ko1995/acc_-37m.txt"        " "      ""
+  4	           0.00000 	       0.00000 	     -40.001         "earthquake/Ko1995/acc_-40m.txt"        " "      ""
+  5	           0.00000 	       0.00000 	     -43.001         "earthquake/Ko1995/acc_-43m.txt"        " "      ""
+  6	           0.00000 	       0.00000 	     -46.001         "earthquake/Ko1995/acc_-46m.txt"        " "      ""
+  7	           0.00000 	       0.00000 	     -49.001         "earthquake/Ko1995/acc_-49m.txt"        " "      ""
+  8	           0.00000 	       0.00000 	     -52.001         "earthquake/Ko1995/acc_-52m.txt"        " "      ""
+  9	           0.00000 	       0.00000 	     -55.001         "earthquake/Ko1995/acc_-55m.txt"        " "      ""
+  10	           0.00000 	       0.00000 	     -58.001         "earthquake/Ko1995/acc_-58m.txt"        " "      ""
+  11	           0.00000 	       0.00000 	     -61.001         "earthquake/Ko1995/acc_-61m.txt"        " "      ""
+  12	           0.00000 	       0.00000 	     -64.001         "earthquake/Ko1995/acc_-64m.txt"        " "      ""
+  13	           0.00000 	       0.00000 	     -67.001         "earthquake/Ko1995/acc_-67m.txt"        " "      ""
+  14	           0.00000 	       0.00000 	     -70.001         "earthquake/Ko1995/acc_-70m.txt"        " "      ""
+  15	           0.00000 	       0.00000 	     -73.001         "earthquake/Ko1995/acc_-73m.txt"        " "      ""
+  16	           0.00000 	       0.00000 	     -76.001         "earthquake/Ko1995/acc_-76m.txt"        " "      ""
+  17	           0.00000 	       0.00000 	     -79.001         "earthquake/Ko1995/acc_-79m.txt"        " "      ""
+  18	           0.00000 	       0.00000 	     -82.001         "earthquake/Ko1995/acc_-82m.txt"        " "      ""
+  19	           0.00000 	       0.00000 	     -85.001         "earthquake/Ko1995/acc_-85m.txt"        " "      ""
+  20	           0.00000 	       0.00000 	     -88.001         "earthquake/Ko1995/acc_-88m.txt"        " "      ""
+  21	           0.00000 	       0.00000 	     -91.001         "earthquake/Ko1995/acc_-91m.txt"        " "      ""
+  22	           0.00000 	       0.00000 	     -94.001         "earthquake/Ko1995/acc_-94m.txt"        " "      ""
+  23	           0.00000 	       0.00000 	     -97.001         "earthquake/Ko1995/acc_-97m.txt"        " "      ""
+  24	           0.00000 	       0.00000 	     -100.001         "earthquake/Ko1995/acc_-100m.txt"        " "      ""
+-------------------------- SYNTHETIC CONTROL [used when SeismicMode=2] ---------------------------------
+123456789                          SynRandomSeedX1    - First random seed of Synthetic Motion for X direction [-2147483648 to 2147483647] (-) [unused when SeismicMode=1]
+1011121314                         SynRandomSeedX2    - Second random seed of Synthetic Motion for X direction [-2147483648 to 2147483647] (-) [unused when SeismicMode=1]
+-223456789                         SynRandomSeedY1    - First random seed of Synthetic Motion for Y direction [-2147483648 to 2147483647] (-) [unused when SeismicMode=1]
+2111121314                         SynRandomSeedY2    - Second random seed of Synthetic Motion for Y direction [-2147483648 to 2147483647] (-) [unused when SeismicMode=1]
+1123456789                         SynRandomSeedZ1    - First random seed of Synthetic Motion for Z direction [-2147483648 to 2147483647] (-) [unused when SeismicMode=1]
+-1011121314                        SynRandomSeedZ2    - Second random seed of Synthetic Motion for Z direction [-2147483648 to 2147483647] (-) [unused when SeismicMode=1]
+0.0                                SynRMSAmpX        - The RMS amplitude used for synthetic motion in X direction in m/s^2 [unused when SeismicMode=1]
+0.0                                SynRMSAmpY        - The RMS amplitude used for synthetic motion in Y direction in m/s^2 [unused when SeismicMode=1]
+0.0                                SynRMSAmpZ        - The RMS amplitude used for synthetic motion in Z direction in m/s^2 [unused when SeismicMode=1]
+0.0                                SynDuration       - Duration of the synthetic motion in seconds [unused when SeismicMode=1]
+""                                 SynInitRampFnX    - Initial ramping file name for synthetic motion in X direction [unused when SeismicMode=1]
+""                                 SynInitRampFnY    - Initial ramping file name for synthetic motion in Y direction [unused when SeismicMode=1]
+""                                 SynInitRampFnZ    - Initial ramping file name for synthetic motion in Z direction [unused when SeismicMode=1]
+""                                 SynFinalRampFnX   - Final ramping file name for synthetic motion in X direction [unused when SeismicMode=1]
+""                                 SynFinalRampFnY   - Final ramping file name for synthetic motion in X direction [unused when SeismicMode=1]
+""                                 SynFinalRampFnZ   - Final ramping file name for synthetic motion in X direction [unused when SeismicMode=1]
+-------------------------- CORRECTION CONTROL [used when PtfmMotionType=2] ---------------------------------
+False                              BLineCorrection   - Variable specifying if motion should be baseline corrected [used when PtfmMotionType=1]
+False                              TgtResponse       - Variable specifying if spectral matching should be performed on motion [used when PtfmMotionType=1]
+""                                 TgtResFnX         - Target response file name in X direction [used when PtfmMotionType=1 & TgtResponse = True]
+""                                 TgtResFnY         - Target response file name in Y direction [used when PtfmMotionType=1 & TgtResponse = True]
+""                                 TgtResFnZ         - Target response file name in Z direction [used when PtfmMotionType=1 & TgtResponse = True]
+4                                  nPass             - Integer specifying the number of passes in spectral matching [used when PtfmMotionType=1 & TgtResponse = True]
+400                                MaxIter           - Integer specifying maximum number of interations in each pass for spectral matching [used when PtfmMotionType=1 & TgtResponse = True]
+5                                  SMTol             - Tolerence used for spectral matching [used when PtfmMotionType=1 & TgtResponse = True]
+35.0                               MaxFreq           - Maximum frequency up to which spectral matching is performed [used when PtfmMotionType=1 & TgtResponse = True]
+1,35.0                             FreqMatch12       - Two frequencies which clarify the frequency range for spectral matching in 1st pass [used when PtfmMotionType=1 & TgtResponse = True] 
+END of FAST input file (the word "END" must appear in the first 3 columns of this last line).
+--------------------------------------------------------------------------------

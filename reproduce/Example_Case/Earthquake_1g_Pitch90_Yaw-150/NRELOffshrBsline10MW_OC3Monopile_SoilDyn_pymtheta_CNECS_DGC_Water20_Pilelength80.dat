@@ -1,0 +1,123 @@
+------- SoilDyn v1.0 INPUT FILE ------------------------------------------------------------------------------
+Example SoilDyn input file for coupling to REDWIN DLL for model 2 (point coupling)
+--------------------------------------------------------------------------------------------------------------
+      False                Echo           - Echo input data to <RootName>.ech (flag)
+      "default"            DT             - Communication interval (s) (or "default")
+      5                    CalcOption     - Calculation option  {1: Stiffness / Damping matrices [unavailable], 2: P-Y curves [unavailable], 3: coupled REDWIN DLL, 4: Todai augemnted Winkler models, 5: ZJU p-y_m-theta model, 6: Multi-directional bounding-surface P-y model, 7: Multi-directional HARM P-y model}
+    True                   CompSeismic    - Compute SEISMIC module {true/false} (flag)
+"SoilDyn_L90_Pymtheta_seismic3.dat"      Seismicfile     - Name of the file containing seismic module input [unused when CompSEISMIC is false]
+================== Parameters for Stiffness / Damping matrices [used only for CalcOption = 1] ================
+   0 0 -20.001             Location (X,Y,Z)     - the location of interface point (only one point allowed)
+Stiffness matrix (6x6)
+   0.0570e+12   0.0000e+00   0.0000e+00   0.0000e+00  -0.2601e+12   0.0000e+00
+   0.0000e+00   0.0570e+12   0.0000e+00   0.2601e+12   0.0000e+00   0.0000e+00
+   0.0000e+00   0.0000e+00   1.0000e+11   0.0000e+00   0.0000e+00   0.0000e+00
+   0.0000e+00   0.2601e+12   0.0000e+00   2.3483e+14   0.0000e+00   0.0000e+00
+  -0.2601e+12   0.0000e+00   0.0000e+00   0.0000e+00   2.3483e+14   0.0000e+00
+   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   1.0000e+13
+Damping ratio matrix (6x6)
+   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00
+   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00
+   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00
+   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00
+   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00
+   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00
+================== Parameters for P-Y curves [used only for CalcOption = 2] ==================================
+      1                    PY_numPts      - Number of PY input points on separate lines below (must match number of P-Y curves in PY_inputFile)
+---- Location (x,y,z) ------- Point InputFile -------------
+   0 0 0                   "UnusedFile" 
+================== REDWIN interface for DLL [used only for CalcOption = 3] ===================================
+      2                          DLL_model      - Model used in DLL {1: , 2: , 3: }
+"REDWINmodel2-2.0_x86.dll"       DLL_FileName   - Name/location of the dynamic library {.dll [Windows] or .so [Linux]} in the REDWIN-DLL format (-) [used only with DLL Interface]
+      1                          DLL_NumPoints  - Number of interface points (specify location in global coordinates -- points must correspond to SubDyn mesh points) (-) [used only with DLL Interface]
+---- Location (X,Y,Z) ------- PropsFile ------------- LDispFile ------------  NOTE: PropsFile and LDipsFile must be relative to the working directory
+   0 0 -20.001               "Props.txt"      "LoadDisplacement.txt"
+================== Parameters for augmented Winkler models [used only for CalcOption = 4] ==================================
+      0        Withrate       - consider rate effect or not {>0 for YES; <0 for NO} (flag)
+      0        DampMatch      - consider rate effect or not {>0 for YES; <0 for NO} (flag)
+     18        AWM_numPts     - Number of soil nodes connecting to soil reaction curves (-)
+"NRELOffshrBsline5MW_OC3Monopile_SoilDyn_Soil10.dat"         SoilFile     - Name of file containing soil properties (quoted string)
+================== Parameters for p-y_m-theta models [used only for CalcOption = 5] ==================================
+    9             PileDia              - Pile diameter (Unit: m)
+    1.0             PyMtheta_interval    - Interval between P-y input points (m)
+"pyCurveDmp_data_CNTS_DGD_Water20_Pilelength80.dat"  InFilepy    - Input files for linear or nonlinear p-y springs
+"MthetaCurveDmp_data_CNTS_DGD_Water20_Pilelength80.dat" InFileMtheta -Input files for linear or nonlinear M-theta spring
+================== Parameters for Multi-directional Bounding-surface P-y Model [used only for CalcOption = 6] ==================================
+         60        Py_BS_numPts         - Number of BS P-y input points (start from 1*Py_BS_interval(m) below MSL)
+          1        Py_BS_interval       - Interval between BS P-y input points (m)
+         40        Py_NSpringAround     - Number of P-y springs around the pile perimeter (N>=4 & must be a multiple of 4; setting N=4 is equivalent to unidirectional model)
+        0.3        Py_BS_h              - Input parameter h of BS P-y curve
+      0.008        Py_BS_alpha          - Input parameter alpha of BS P-y curve (alpha>=0) (disabled by setting to 0)
+         10        Py_BS_n              - Input parameter n of BS P-y curve (==10)
+        0.1        Py_BS_beta1          - Input parameter beta1 of BS P-y curve controls the degradation speed of slope of P-y curve during cycles (beta1>0; default=0)  (disabled by setting to 0)
+          1        Py_BS_beta2          - Input parameter beta2 of BS P-y curve together with beta1 (beta2>=1; default=1) (disabled by setting to 1)
+          0        Py_BS_beta3          - Input parameter beta3 of BS P-y curve controls the degradation speed of Pu (beta3 > 0; default=0) (disabled by setting to 0)
+          1        Py_BS_delta_rem      - Ratio of residual soil resistance to initial soil resistance (0<=delta_rem<=1; default=1) (disabled by setting to 1)
+          3        Py_BS_iniStffMthd       - Initial stiffness of P-y curve calculation method (1: through Es and mus (Vesic, 1961); 2: through Es and mus (Ashford and Juirnarongrit, 2003); 3: through etah
+      40000        Py_BS_iniStff12_Es0     - Young's modulus of the soil at mudline (Pa) [unused when Py_BS_iniStffMthd=3]
+     640000        Py_BS_iniStff12_Esk     - Slope of Young's modulus of the soil (Pa/m) [unused when Py_BS_iniStffMthd=3]
+10000000000        Py_BS_iniStff12_Esmax   - Maximum Young's modulus of the soil (Pa) [unused when Py_BS_iniStffMthd=3]
+        0.3        Py_BS_iniStff12_mus     - Poisson's ratio of the soil (-1<=mus<=0.5) [unused when Py_BS_iniStffMthd=3]
+     600000        Py_BS_iniStff3_etah     - Horizontal subgrade reaction (N/m^3) [used only when Py_BS_iniStffMthd=3]
+          2        Py_BS_PuMthd            - Bearing capacity calculation method (1: through alpha_rgh; 2: through Npk; 3: through cp and phi; 4: through Dr)
+          1        Py_BS_Pu1_alpha_rgh     - Pile-soil interface roughness (0<=alpha_rgh<=1) [used only when Py_BS_PuMthd=1]
+       6.75        Py_BS_Pu2_Np0           - Lateral bearing capacity factor at mudline [used only when Py_BS_PuMthd=2]
+     0.0833        Py_BS_Pu2_Npk           - Slope of lateral bearing capacity factor (Npk>=0) [used only when Py_BS_PuMthd=2]
+          9        Py_BS_Pu2_Npmax         - Maximum lateral bearing capacity factor [used only when Py_BS_PuMthd=2]
+        100        Py_BS_Pu12_su0          - Soil shear strength of the P-y curve at mudline (Pa) [used only when Py_BS_PuMthd=1 and 2]
+       1600        Py_BS_Pu12_suk          - Slope of soil shear strength of the P-y curve (Pa/m) [used only when Py_BS_PuMthd=1 and 2]
+10000000000        Py_BS_Pu12_sumax        - Maximum soil shear strength (Pa) [used only when Py_BS_PuMthd=1 and 2]
+         10        Py_BS_Pu3_cp            - Model parameter related to Pu(=cp*sigma_p) [used only when Py_BS_PuMthd=3]
+         25        Py_BS_Pu3_phi           - Friction angle of the soil (deg) (0<=phi<90) [used only when Py_BS_PuMthd=3]
+          1        Py_BS_Pu4_SorR          - Bearing capacity calculation method through Dr (1: soft pile; 2: rigid pile) [used only when Py_BS_PuMthd=4]
+          0        Py_BS_Pu4_Dr            - Relative density of the soil (%) (0<=Dr<=100) [used only when Py_BS_PuMthd=4]
+       6000        Py_BS_Pu34_gamma        - Unit weight of the soil (N/m^3) [used only when Py_BS_PuMthd=3 and 4]
+------------------ CROSS-SECTION PROPERTIES ------------------------
+          2        N_Py_BS_PropSets        - Number of structurally unique x-sections
+  Location (Z(m) only, since X and Y need to be set to 0)    YoungE(N/m^3)    Diameter(m)    Thickness(m)
+        -21                                                   210e9            6.0          0.06
+        -80                                                   210e9            6.0          0.06
+================== Parameters for Multi-directional HARM P-y Model [used only for CalcOption = 7] ==================================
+         60        Py_HARM_numPts         - Number of BS P-y input points (start from 1*Py_BS_interval(m) below MSL)
+          1        Py_HARM_interval       - Interval between BS P-y input points (m)
+         40        Py_HARM_NSpringAround  - Number of P-y springs around the pile perimeter (N>=4 & must be a multiple of 4; setting N=4 is equivalent to unidirectional model)
+         10        Py_HARM_Nalpha_n       - Number of alpha_n in the HARM spring (The larger N, the smoother curve)
+  0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1 0.01     Py_HARM_H_n          - Stiffness of alpha_n in the HARM spring
+  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0      Py_HARM_k_n          - Resistance of alpha_n in the HARM spring
+  0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1     Py_HARM_R_n          - R_n of alpha_n in the HARM spring
+          1        Py_BS_beta2          - Input parameter beta2 of BS P-y curve together with beta1 (beta2>=1; default=1) (disabled by setting to 1)
+          0        Py_BS_beta3          - Input parameter beta3 of BS P-y curve controls the degradation speed of Pu (beta3 > 0; default=0) (disabled by setting to 0)
+          1        Py_BS_delta_rem      - Ratio of residual soil resistance to initial soil resistance (0<=delta_rem<=1; default=1) (disabled by setting to 1)
+          3        Py_BS_iniStffMthd       - Initial stiffness of P-y curve calculation method (1: through Es and mus (Vesic, 1961); 2: through Es and mus (Ashford and Juirnarongrit, 2003); 3: through etah
+      40000        Py_BS_iniStff12_Es0     - Young's modulus of the soil at mudline (Pa) [unused when Py_BS_iniStffMthd=3]
+     640000        Py_BS_iniStff12_Esk     - Slope of Young's modulus of the soil (Pa/m) [unused when Py_BS_iniStffMthd=3]
+10000000000        Py_BS_iniStff12_Esmax   - Maximum Young's modulus of the soil (Pa) [unused when Py_BS_iniStffMthd=3]
+        0.3        Py_BS_iniStff12_mus     - Poisson's ratio of the soil (-1<=mus<=0.5) [unused when Py_BS_iniStffMthd=3]
+     600000        Py_BS_iniStff3_etah     - Horizontal subgrade reaction (N/m^3) [used only when Py_BS_iniStffMthd=3]
+          2        Py_BS_PuMthd            - Bearing capacity calculation method (1: through alpha_rgh; 2: through Npk; 3: through cp and phi; 4: through Dr)
+          1        Py_BS_Pu1_alpha_rgh     - Pile-soil interface roughness (0<=alpha_rgh<=1) [used only when Py_BS_PuMthd=1]
+       6.75        Py_BS_Pu2_Np0           - Lateral bearing capacity factor at mudline [used only when Py_BS_PuMthd=2]
+     0.0833        Py_BS_Pu2_Npk           - Slope of lateral bearing capacity factor (Npk>=0) [used only when Py_BS_PuMthd=2]
+          9        Py_BS_Pu2_Npmax         - Maximum lateral bearing capacity factor [used only when Py_BS_PuMthd=2]
+        100        Py_BS_Pu12_su0          - Soil shear strength of the P-y curve at mudline (Pa) [used only when Py_BS_PuMthd=1 and 2]
+       1600        Py_BS_Pu12_suk          - Slope of soil shear strength of the P-y curve (Pa/m) [used only when Py_BS_PuMthd=1 and 2]
+10000000000        Py_BS_Pu12_sumax        - Maximum soil shear strength (Pa) [used only when Py_BS_PuMthd=1 and 2]
+         10        Py_BS_Pu3_cp            - Model parameter related to Pu(=cp*sigma_p) [used only when Py_BS_PuMthd=3]
+         25        Py_BS_Pu3_phi           - Friction angle of the soil (deg) (0<=phi<90) [used only when Py_BS_PuMthd=3]
+          1        Py_BS_Pu4_SorR          - Bearing capacity calculation method through Dr (1: soft pile; 2: rigid pile) [used only when Py_BS_PuMthd=4]
+          0        Py_BS_Pu4_Dr            - Relative density of the soil (%) (0<=Dr<=100) [used only when Py_BS_PuMthd=4]
+       6000        Py_BS_Pu34_gamma        - Unit weight of the soil (N/m^3) [used only when Py_BS_PuMthd=3 and 4]
+------------------ CROSS-SECTION PROPERTIES ------------------------
+          2        N_Py_BS_PropSets        - Number of structurally unique x-sections
+  Location (Z(m) only, since X and Y need to be set to 0)    YoungE(N/m^3)    Diameter(m)    Thickness(m)
+        -21                                                   210e9            6.0          0.06
+        -80                                                   210e9            6.0          0.06
+====================== OUTPUT ==================================================
+      False                SumPrint       - Print summary data to <RootName>.SlD.sum (flag)
+                           OutList        - The next line(s) contains a list of output parameters.  See OutListParameters.xlsx for a listing of available output channels, (-)
+END of input file (the word "END" must appear in the first 3 columns of this last OutList line)
+---------------------------------------------------------------------------------------
+"SlD2Fxg, SlD2Fyg, SlD2Fzg, SlD2Mxg, SlD2Myg, SlD2Mzg"
+"SlD2TDxg,SlD2TDyg,SlD2TDzg,SlD2RDxg,SlD2RDyg,SlD2RDzg"
+END of input file (the word "END" must appear in the first 3 columns of this last OutList line)
+---------------------------------------------------------------------------------------
