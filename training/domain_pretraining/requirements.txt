@@ -1,0 +1,10 @@
+# Training-only dependencies. Pure-Python packing/config/tests require none.
+torch==2.5.1
+transformers==4.51.3
+accelerate==0.34.2
+datasets==3.3.1
+deepspeed==0.15.4
+tokenizers==0.21.1
+safetensors==0.5.3
+sentencepiece==0.2.0
+tensorboard==2.18.0

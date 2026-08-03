@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iwind.example/schemas/preference-pair-v1.json",
+  "title": "Iwind expanded preference pair",
+  "type": "object",
+  "required": [
+    "pair_id",
+    "question_id",
+    "question",
+    "chosen_response_id",
+    "rejected_response_id",
+    "chosen",
+    "rejected",
+    "chosen_level",
+    "rejected_level",
+    "quality_gap"
+  ],
+  "properties": {
+    "pair_id": {"type": "string", "minLength": 1},
+    "question_id": {"type": "string", "minLength": 1},
+    "question": {"type": "string", "minLength": 1},
+    "chosen_response_id": {"type": "string", "minLength": 1},
+    "rejected_response_id": {"type": "string", "minLength": 1},
+    "chosen": {"type": "string", "minLength": 1},
+    "rejected": {"type": "string", "minLength": 1},
+    "chosen_level": {"type": "integer", "enum": [2, 3, 4, 5]},
+    "rejected_level": {"type": "integer", "enum": [1, 2, 3, 4]},
+    "quality_gap": {"type": "integer", "minimum": 1, "maximum": 4}
+  },
+  "additionalProperties": true
+}

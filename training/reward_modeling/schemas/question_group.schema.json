@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iwind.example/schemas/question-group-v1.json",
+  "title": "Iwind five-level rubric question group",
+  "type": "object",
+  "required": ["question_id", "question", "responses"],
+  "properties": {
+    "question_id": {"type": "string", "minLength": 1},
+    "question": {"type": "string", "minLength": 1},
+    "language": {"type": "string", "minLength": 1},
+    "task": {"type": "string", "minLength": 1},
+    "responses": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["response_id", "text", "level"],
+        "properties": {
+          "response_id": {"type": "string", "minLength": 1},
+          "text": {"type": "string", "minLength": 1},
+          "level": {"type": "integer", "enum": [1, 2, 3, 4, 5]},
+          "annotator_id": {"type": "string", "minLength": 1},
+          "rationale": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

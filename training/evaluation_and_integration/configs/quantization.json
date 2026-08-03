@@ -1,0 +1,15 @@
+{
+  "source_model": "../../policy_optimization/outputs/grpo",
+  "calibration_file": "../outputs/calibration/calibration.jsonl",
+  "output_dir": "../outputs/iwind_grpo_gptq_int4",
+  "bits": 4,
+  "group_size": 128,
+  "damp_percent": 0.01,
+  "desc_act": false,
+  "static_groups": false,
+  "sym": true,
+  "true_sequential": true,
+  "trust_remote_code": false,
+  "device_map": "auto",
+  "required_export_files": ["config.json"]
+}

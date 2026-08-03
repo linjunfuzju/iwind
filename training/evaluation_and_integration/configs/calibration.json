@@ -1,0 +1,15 @@
+{
+  "output_file": "../outputs/calibration/calibration.jsonl",
+  "manifest_file": "../outputs/calibration/manifest.json",
+  "total_samples": 512,
+  "seed": 42,
+  "min_chars": 50,
+  "evaluation_files": [],
+  "near_duplicate_jaccard": 0.85,
+  "require_full_sample": true,
+  "sources": [
+    {"name": "grpo_prompts", "path": "../../policy_optimization/data/grpo_train.jsonl", "format": "grpo", "ratio": 0.6},
+    {"name": "sft_conversations", "path": "../../instruction_tuning/data/sft_train.jsonl", "format": "messages", "ratio": 0.3},
+    {"name": "domain_corpus", "path": "../../data_engineering/data/processed/corpus_train.jsonl", "format": "text", "ratio": 0.1}
+  ]
+}
