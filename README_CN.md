@@ -145,6 +145,18 @@ iwind/
 │       ├── auto_para_generator.py   # 自动参数生成器
 │       └── replace_io.py            # I/O 重定向工具
 │
+├── training/                        # 领域模型训练流水线（第 7 节）
+│   ├── data_engineering/            # 数据工程：语料处理、基准数据集构建
+│   ├── domain_pretraining/         # 领域继续预训练
+│   ├── instruction_tuning/          # 指令微调（LoRA + assistant-only loss）
+│   ├── reward_modeling/             # 奖励建模（五级评分偏好学习）
+│   ├── policy_optimization/         # 策略优化（GRPO）
+│   ├── evaluation_and_integration/  # 评测与集成（GPTQ、RAG）
+│   ├── TRAINING_README.md          # 训练流水线总览
+│   ├── LOGIC_REVIEW.md             # 逻辑重构审查记录
+│   ├── requirements.txt             # 训练依赖
+│   └── validate_pipeline.py         # 静态验证脚本
+│
 ├── reproduce/                       # 仿真复现包（第 6 节）
 │   ├── README_EN_reproduce.md       # 详细复现指南（英文）
 │   ├── single_simulation.py         # 交互式单次仿真（自然语言输入）
@@ -186,6 +198,7 @@ iwind/
 | 目录 | 说明 |
 |------|------|
 | `llm_backend/` | 主后端：FastAPI REST API + Agent 框架（含多种类型）；OpenFAST/OpenSees/GraphRAG 等为系统扩展能力 |
+| `training/` | 领域模型训练流水线：数据工程 → 领域预训练 → 指令微调 → 奖励建模 → GRPO 策略优化 → 评测与集成 |
 | `reproduce/` | 仿真复现包：单次及批量仿真脚本、后处理与可视化 |
 | `yolo_fan/` | YOLOv8m 目标检测模型，用于风机损伤检测 |
 | `qa_data/` | 15,000 条风电领域中文基准评测问答数据集 |
@@ -409,7 +422,67 @@ results = model.predict(source="field_image.jpg", conf=0.5)
 
 该数据集用于评估大语言模型在风电工程领域的领域知识与推理能力。
 
-## 8. 许可证
+## 8. 训练流水线
+
+本目录包含 Iwind 领域模型的完整训练流水线源代码。原始 notebook 已将逻辑提取、重构并转换为可审计的 Python 模块。
+
+### 流水线构成
+
+| 模块 | 作用 | 主要模型或产物 |
+|------|------|----------------|
+| `data_engineering` | 语料标准化、过滤、去重、分段及多语言基准数据集构建 | 训练数据集与基准数据集 |
+| `domain_pretraining` | 领域继续预训练（因果语言建模） | `DeepSeek-R1-0528-Qwen3-8B` |
+| `instruction_tuning` | 基于 LoRA 和仅 assistant token 损失的指令对齐 | 领域 SFT 模型 |
+| `reward_modeling` | 五级评分体系的两两偏好学习 | `QRM-Llama3.1-8B-v2` |
+| `policy_optimization` | 基于奖励模型的 GRPO（Group Relative Policy Optimization）策略优化 | GRPO 策略模型 |
+| `evaluation_and_integration` | 全周期评测、GPTQ 导出及三路径 RAG 集成 | 最终 Iwind 推理模型 |
+
+### 执行顺序
+
+```
+data_engineering
+  → domain_pretraining
+  → instruction_tuning
+  → reward_modeling
+  → policy_optimization
+  → evaluation_and_integration
+```
+
+各模块均包含独立的 `README.md`、`requirements.txt`、配置文件、Python 入口及本地单元测试。配置示例中的路径为占位符，需根据目标集群环境修改。
+
+### 各模块说明
+
+**`data_engineering/`** — 数据工程
+仅使用 Python 标准库。功能包括：严格的 frozen dataclass schema、Unicode 与空格标准化、稳定的内容/来源派生 ID、确定性 token 分块（Unicode 词/标点边界）、精确 SHA-256 与可配置 shingle-Jaccard 近重复检测、按记录分组的平衡分割、跨分割组污染审计、语料库统计与 manifest 清单。
+
+**`domain_pretraining/`** — 领域预训练
+在标准化语料上进行继续因果语言模型预训练。关键设计：确定性全局 token packing、显式 EOS 边界、保留 token 核算、验证 perplexity 从验证 loss 而非生成输出推导。
+
+**`instruction_tuning/`** — 指令微调
+基于 LoRA 和仅 assistant 因果语言建模损失进行指令对齐。关键设计：tokenizer 原生 chat template、仅 assistant token 贡献损失（user/system/padding 标记为 `-100`）、监督保留截断。
+
+**`reward_modeling/`** — 奖励建模
+五级评分体系的两两偏好学习 pipeline。评分标准：1=不可接受、2=有限、3=合格、4=强、5=专家。关键设计：问题组分块后展开偏好对、显式奖励边界（scalar logits 与 quantile mean）。
+
+**`policy_optimization/`** — 策略优化（GRPO）
+使用 transport-neutral 领域奖励边界的 GRPO 策略优化。关键设计：本地与 HTTP 两种奖励服务模式、显式 per-rank 设备放置、奖励失败上报为错误而非静默零值奖励。
+
+**`evaluation_and_integration/`** — 评测与集成
+全周期评测、GPTQ 导出及 RAG 集成。功能包括：Wilson 区间（客观题准确率）与 bootstrap 区间（专家维度）、SFT/GRPO 对比评测、原子 GPTQ 分阶段导出、BM25/dense/structured 多路径检索召回、引用验证。
+
+### 静态验证
+
+从仓库根目录运行全部静态检查与本地逻辑测试：
+
+```bash
+python iwind/validate_pipeline.py
+```
+
+该验证器解析所有 Python 与 JSON 文件，检查文档和 requirements 是否存在，并运行六个模块的测试套件。验证器不下载 checkpoint 也不启动训练。
+
+> **注意**：本训练流水线代码已公开。模型权重（`DeepSeek-R1-0528-Qwen3-8B`、`QRM-Llama3.1-8B-v2`）及领域强化学习训练脚本暂未公开，详见第 6 节材料可用性说明。
+
+## 9. 许可证
 
 基于 **MIT 许可证**开源。
 

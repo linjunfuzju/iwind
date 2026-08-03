@@ -146,6 +146,18 @@ iwind/
 │       ├── auto_para_generator.py   # Auto parameter generator
 │       └── replace_io.py            # I/O redirection utility
 │
+├── training/                        # Domain model training pipeline (Section 7)
+│   ├── data_engineering/            # Dataset construction and benchmark building
+│   ├── domain_pretraining/          # Continued domain pretraining
+│   ├── instruction_tuning/          # Instruction tuning (LoRA + assistant-only loss)
+│   ├── reward_modeling/             # Reward modeling (five-level rubric pairwise learning)
+│   ├── policy_optimization/         # Policy optimization (GRPO)
+│   ├── evaluation_and_integration/  # Evaluation and integration (GPTQ, RAG)
+│   ├── TRAINING_README.md          # Training pipeline overview
+│   ├── LOGIC_REVIEW.md             # Logic reconstruction review record
+│   ├── requirements.txt             # Training dependencies
+│   └── validate_pipeline.py         # Static validation script
+│
 ├── reproduce/                       # Simulation reproduction package (Section 5)
 │   ├── README_EN_reproduce.md       # Detailed reproduction guide
 │   ├── single_simulation.py         # Single interactive simulation (natural language)
@@ -186,6 +198,7 @@ iwind/
 | Directory | Description |
 |-----------|-------------|
 | `llm_backend/` | Main backend: FastAPI REST API + Agent framework (multiple types); OpenFAST/OpenSees/GraphRAG are system extension capabilities |
+| `training/` | Domain model training pipeline: data engineering → domain pretraining → instruction tuning → reward modeling → GRPO policy optimization → evaluation and integration |
 | `reproduce/` | Simulation reproduction package — single-case and batch simulation scripts, post-processing, and visualization |
 | `yolo_fan/` | YOLOv8m object detection model for wind turbine damage inspection |
 | `qa_data/` | 15,000-pair public benchmark dataset for offshore wind domain LLM evaluation |
@@ -411,7 +424,67 @@ A public benchmark dataset of **15,000 Chinese QA pairs** covering offshore wind
 
 This dataset is used to evaluate the domain knowledge and reasoning capabilities of large language models on offshore wind engineering tasks.
 
-## 8. License
+## 8. Training Pipeline
+
+This directory contains the source code for the complete Iwind domain model training pipeline. The original notebooks have been reviewed, corrected, and converted into auditable Python modules.
+
+### Pipeline Stages
+
+| Module | Purpose | Primary Model or Artifact |
+|---|---|---|
+| `data_engineering` | Corpus normalization, filtering, deduplication, splitting, and multilingual benchmark construction | Training and benchmark datasets |
+| `domain_pretraining` | Continued autoregressive domain pretraining | `DeepSeek-R1-0528-Qwen3-8B` |
+| `instruction_tuning` | Instruction alignment with LoRA and assistant-only loss | Domain SFT model |
+| `reward_modeling` | Pairwise preference learning with five-level quality rubric | `QRM-Llama3.1-8B-v2` |
+| `policy_optimization` | Group Relative Policy Optimization using the reward model | GRPO policy model |
+| `evaluation_and_integration` | Full-cycle evaluation, GPTQ export, and three-path RAG integration | Final Iwind inference model |
+
+### Execution Order
+
+```
+data_engineering
+  → domain_pretraining
+  → instruction_tuning
+  → reward_modeling
+  → policy_optimization
+  → evaluation_and_integration
+```
+
+Each module has its own `README.md`, `requirements.txt`, configuration files, Python entry points, and local unit tests. Paths in example configurations are placeholders and must be changed to match the target cluster.
+
+### Module Details
+
+**`data_engineering/`** — Dataset Construction
+Uses only the Python standard library. Capabilities: strict frozen dataclass schemas, Unicode and whitespace normalization, stable content/source-derived identifiers, deterministic token-aware chunking (Unicode word/punctuation boundaries), exact SHA-256 and configurable shingle-Jaccard near deduplication, grouped splits, cross-split contamination audits, corpus statistics, and artifact manifests.
+
+**`domain_pretraining/`** — Domain Pretraining
+Continued causal language model pretraining on the normalized Iwind corpus. Key design: deterministic global token packing, explicit EOS boundaries, retained-token accounting, validation perplexity from eval loss (not generation output).
+
+**`instruction_tuning/`** — Instruction Tuning
+Instruction alignment via LoRA with assistant-only causal LM loss. Key design: tokenizer native chat template, only assistant tokens contribute to loss (user/system/padding labeled `-100`), supervision-preserving truncation.
+
+**`reward_modeling/`** — Reward Modeling
+Pairwise preference learning with a five-level rubric (1=Unacceptable, 2=Limited, 3=Competent, 4=Strong, 5=Expert). Key design: question-group-safe splitting before pair expansion, explicit reward boundaries (scalar logits and quantile mean).
+
+**`policy_optimization/`** — Policy Optimization (GRPO)
+GRPO with a transport-neutral domain reward boundary. Key design: local and HTTP reward service modes, explicit per-rank device placement, reward failures reported as errors (not silently converted to zero rewards).
+
+**`evaluation_and_integration/`** — Evaluation and Integration
+Full-cycle evaluation, GPTQ export, and RAG integration. Capabilities: Wilson intervals (objective accuracy) and bootstrap intervals (expert dimensions), SFT/GRPO paired comparison, atomic GPTQ staging export, BM25/dense/structured multi-path retrieval, citation validation.
+
+### Static Validation
+
+Run all static checks and local logic tests from the repository root:
+
+```bash
+python iwind/validate_pipeline.py
+```
+
+The validator parses all Python and JSON files, checks that documentation and requirements are present, and runs the six module test suites. It does not download checkpoints or start training.
+
+> **Note**: The training pipeline code is publicly available. Model weights (`DeepSeek-R1-0528-Qwen3-8B`, `QRM-Llama3.1-8B-v2`) and domain-specific reinforcement learning training scripts are not yet open-sourced, as described in Section 6.
+
+## 9. License
 
 Licensed under the **MIT License**.
 
