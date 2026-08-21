@@ -41,7 +41,7 @@ The following files should be present in this directory:
 
 **Download link:**
 ```
-https://download.scidb.cn/download?fileId=91c538bf6a6beae43dd3fa7f45a276c9&path=/V1/zwind_reproduce_v5.tar.gz&username=linjunfu@zju.edu.cn&fileName=zwind_reproduce_v5.tar.gz
+https://download.scidb.cn/download?fileId=b08e8bbb59e043a519f18c32d325dcb2&path=/V2/Iwind_reproduce_v5.tar.gz&username=linjunfu@zju.edu.cn&fileName=Iwind_reproduce_v5.tar.gz
 ```
 
 After downloading, **rename the file to end with `.tar.gz`** (e.g., `anything.tar.gz`) and place it in the same directory as the scripts. The scripts will automatically find and load any `.tar.gz` file in the directory - no specific filename is required.
