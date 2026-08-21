@@ -8,6 +8,7 @@
 
 1. **Time cost**: Full batch simulation (336 cases) takes approximately **48 hours**. Ensure your machine can run for an extended period.
 2. **Storage space**: Complete simulation results require approximately **73 GB** of disk space. Ensure you have sufficient space before starting.
+3. **Operating system**: The reproduction is recommended to be performed on **Ubuntu 22.04 LTS**. Although Docker-based execution is supported on other systems, Ubuntu 22.04 provides the most consistent and stable environment for reproducing the reported results.
 
 ---
 
