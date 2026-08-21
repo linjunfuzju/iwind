@@ -26,7 +26,7 @@ import socket
 import time
 from datetime import datetime
 
-IMAGE_NAME = "Iwind_reproduce_v5.tar"
+IMAGE_NAME = "zwind-reproduce:v4"
 RESULTS_DIR = "./simulation_runs"
 
 # Global variable: container ID
@@ -113,9 +113,9 @@ def cleanup_containers_on_port(port):
                 if f":{port}->" in ports_info or f"{port}/tcp" in ports_info:
                     print(f"[CLEANUP] Stopping old container occupying port {port}: {container_id[:12]}")
                     subprocess.run(["docker", "stop", container_id],
-                                 capture_output=True, stderr=subprocess.DEVNULL)
+                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                     subprocess.run(["docker", "rm", container_id],
-                                 capture_output=True, stderr=subprocess.DEVNULL)
+                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                     return True
     except Exception as e:
         print(f"[WARNING] Error during container cleanup: {e}")
@@ -146,7 +146,7 @@ def cleanup_stale_containers():
                 if "Created" in status or "Exited" in status:
                     print(f"[CLEANUP] Removing old container: {container_name} ({status})")
                     subprocess.run(["docker", "rm", container_id],
-                                 capture_output=True, stderr=subprocess.DEVNULL)
+                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except Exception as e:
         print(f"[WARNING] Error cleaning stale containers: {e}")
 
@@ -346,7 +346,7 @@ def cleanup(signum=None, frame=None):
     if container_id:
         print(f"[STOP] Stopping Docker container ({container_id[:12]})...")
         subprocess.run(["docker", "stop", container_id],
-                      capture_output=True, stderr=subprocess.DEVNULL)
+                      stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         print(f"[HINT] Container stopped. Use 'docker start {container_id}' to resume")
     print("[DONE] Script exited")
     sys.exit(130)
