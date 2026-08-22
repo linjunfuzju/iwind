@@ -1,4 +1,4 @@
-# IEA 10MW Offshore Wind Turbine Extreme Loading Simulation Reproduction
+# Wind Turbine Extreme Loading Simulation Reproduction
 
 > This project reproduces all **336 simulation cases** from the paper **IWind: IEA 10MW Offshore Wind Turbine Extreme Loading Dataset**.
 
