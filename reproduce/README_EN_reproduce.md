@@ -180,7 +180,7 @@ Use `visualization.py` to generate plots from processed CSV data.
 simulation_runs/
 ├── Typhoon_V40/                          # Typhoon 40m/s simulation results
 │   ├── Typhoon_V40_Pitch0_Yaw-150/       # Individual case folder
-│   │   ├── 10MW_V40.00_P0.0_Y-150.0_taifeng.out  # OpenFAST output file
+│   │
 │   │   └── ...
 │   ├── Typhoon_V40_Pitch0_Yaw-120/
 │   │   └── ...
