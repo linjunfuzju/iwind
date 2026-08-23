@@ -78,7 +78,7 @@ After downloading and extracting, you will get the `simulation_runs/` directory 
 Use `single_simulation.py` to describe your simulation needs in natural language.
 
 ```bash
-python single_simulation.py
+python single_simulation.exe
 ```
 
 **Features:**
