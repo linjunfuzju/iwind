@@ -61,7 +61,7 @@ iwind/
 │   │               ├── retrievers/       # Cypher example retrievers (vector store, dynamic schema)
 │   │               └── ingest/           # KG data ingestion (Cypher examples)
 │   │
-│   ├── iwind_app/                   # Agent framework core (multiple agent types; OpenFAST/OpenSees tools are extension components)
+│   ├── iwind_app/                   # Agent framework core (multiple agent types; Zwind tools are extension components)
 │   │   ├── agent/                   # Agent implementations
 │   │   │   ├── base.py              # BaseAgent abstract base class
 │   │   │   ├── chatAgentBase.py     # Chat-only agent (no tool use)
@@ -92,11 +92,11 @@ iwind/
 │   │   │   ├── ask_human.py         # Human-in-the-loop tool
 │   │   │   ├── search/              # Search implementations
 │   │   │   │   ├── baidu_search.py, bing_search.py, duckduckgo_search.py, google_search.py
-│   │   │   ├── openfast/            # OpenFAST simulation wrappers (OC3/OC4 test cases)
-│   │   │   │   ├── openfast_5MW_Land_DLL_WTurb/
-│   │   │   │   ├── openfast_5MW_ITIBarge_DLL_WTurb_WavesIrr/
-│   │   │   │   ├── openfast_5MW_OC3Spar_DLL_WTurb_WavesIrr/
-│   │   │   │   ├── openfast_5MW_OC4Jckt_DLL_WTurb_WavesIrr_MGrowth/
+│   │   │   ├── zwind/               # Zwind simulation wrappers (OC3/OC4 test cases)
+│   │   │   │   ├── zwind_5MW_Land_DLL_WTurb/
+│   │   │   │   ├── zwind_5MW_ITIBarge_DLL_WTurb_WavesIrr/
+│   │   │   │   ├── zwind_5MW_OC3Spar_DLL_WTurb_WavesIrr/
+│   │   │   │   ├── zwind_5MW_OC4Jckt_DLL_WTurb_WavesIrr_MGrowth/
 │   │   │   │   └── ... (8 test cases total)
 │   │   │   ├── yolo/                # YOLOv8 object detection
 │   │   │   │   └── yolo_detection/yolo_detection.py
@@ -133,7 +133,7 @@ iwind/
 │   │   └── config.example*.toml     # Per-model configuration templates
 │   │
 │   ├── servers/                     # Simulation microservice backends
-│   │   └── README.md                # OpenFAST / OpenSees / Zwind server deployment guide
+│   │   └── README.md                # Zwind server deployment guide
 │   │
 │   ├── scripts/                     # Utility scripts
 │   │   └── init_db.py               # Database initialization
@@ -197,7 +197,7 @@ iwind/
 
 | Directory | Description |
 |-----------|-------------|
-| `llm_backend/` | Main backend: FastAPI REST API + Agent framework (multiple types); OpenFAST/OpenSees/GraphRAG are system extension capabilities |
+| `llm_backend/` | Main backend: FastAPI REST API + Agent framework (multiple types); Zwind/GraphRAG are system extension capabilities |
 | `training/` | Domain model training pipeline: data engineering → domain pretraining → instruction tuning → reward modeling → GRPO policy optimization → evaluation and integration |
 | `reproduce/` | Simulation reproduction package — single-case and batch simulation scripts, post-processing, and visualization |
 | `yolo_fan/` | YOLOv8m object detection model for wind turbine damage inspection |
@@ -308,7 +308,7 @@ python run.py
 
 Users describe simulation needs in natural language. Iwind parses the parameters, generates a configuration file, invokes Zwind to run the simulation, and compiles the output results.
 
-**User Question**: "Simulate the structural response of the IEA 10 MW offshore wind turbine under wind speed 40 m/s, 1g earthquake acceleration, 0° pitch angle, and -150° yaw angle."
+**User Question**: "Simulate the structural response of the offshore wind turbine under wind speed 40 m/s, 1g earthquake acceleration, 0° pitch angle, and -150° yaw angle."
 
 **Iwind Process**:
 

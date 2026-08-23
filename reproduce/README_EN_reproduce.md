@@ -1,6 +1,6 @@
 # Wind Turbine Extreme Loading Simulation Reproduction
 
-> This project reproduces all **336 simulation cases** from the paper **IWind: IEA 10MW Offshore Wind Turbine Extreme Loading Dataset**.
+> This project reproduces all **336 simulation cases** from the paper **IWind: Offshore Wind Turbine Extreme Loading Dataset**.
 
 ---
 
@@ -169,7 +169,7 @@ Use `visualization.py` to generate plots from processed CSV data.
 - **Optimal pitch vs Yaw plot** (`*_optimal_pitch.png`): Shows optimal pitch angle as function of yaw angle with theoretical line (Pitch = 90 - |Yaw|)
 - **Comparison plot** (`tiqu_comparison_*.png`): 2x2 grid comparing Typhoon V40, V60, Earthquake 1g, 2g
 - **Background stress heatmap**: Max stress visualization with optimal pitch overlay
-- **3D airfoil distribution**: IEA 10MW RWT blade airfoil sections
+- **3D airfoil distribution**: RWT blade airfoil sections
 - **3D twist evolution**: Aerodynamic twist along blade span
 
 ---
@@ -204,8 +204,8 @@ simulation_runs/
 
 | Output Type | File Pattern | Description |
 |-------------|--------------|-------------|
-| Raw simulation | `*_taifeng.out` | OpenFAST typhoon output: Time, WindVxi, RotSpeed, BldPitch, TwrBsFxt, TwrBsFyt, TwrBsFzt, TwrBsMxt, TwrBsMyt, TwrBsMzt, etc. |
-| Raw simulation | `*_dizhen.out` | OpenFAST earthquake output (seismic simulation) |
+| Raw simulation | `*_taifeng.out` | Zwind typhoon output: Time, WindVxi, RotSpeed, BldPitch, TwrBsFxt, TwrBsFyt, TwrBsFzt, TwrBsMxt, TwrBsMyt, TwrBsMzt, etc. |
+| Raw simulation | `*_dizhen.out` | Zwind earthquake output (seismic simulation) |
 | Post-processed stress | `*_stressv2_*.csv` | CSV: FileName, V_hub_ms, Pitch_deg, Yaw_deg, MaxStress_MPa, Time_at_Max_s |
 | Optimal pitch | `*_tiqu_*.csv` | CSV: Yaw_deg, Pitch_V3_00, MinStress_V3_00, ... (per wind speed) |
 | Visualization | `*.png` | Optimal pitch curves, comparison plots, 3D visualizations |
@@ -289,7 +289,7 @@ simulation_runs/
 > Simulation results are saved incrementally to `simulation_runs/`. Re-running the script will resume from where it left off without re-running completed cases.
 
 **Q: What does the .out file contain?**
-> Each `.out` file contains time-series data from OpenFAST simulation including:
+> Each `.out` file contains time-series data from Zwind simulation including:
 > - Time, wind speed, rotor speed, blade pitch
 > - Tower base forces (Fx, Fy, Fz) and moments (Mx, My, Mz)
 > - Nacelle position, yaw error, generator torque, etc.
