@@ -89,7 +89,7 @@ python single_simulation.py
 
 **Supported simulation parameters:**
 - **Typhoon**: Wind speed 40 / 60 m/s
-- **Earthquake**: Acceleration 1g (9.81) / 2g (19.62) / 4g (39.24) m/s²
+- **Earthquake**: Acceleration 1g (9.81) / 2g (19.62)
 - **Pitch angle**: 0°, 15°, 30°, 45°, 60°, 75°, 90°
 - **Yaw angle**: -150°, -120°, -90°, -60°, -30°, 0°, 30°, 60°, 90°, 120°, 150°, 180°
 
