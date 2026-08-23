@@ -221,7 +221,7 @@ iwind/
 conda create -n iwind python=3.10
 conda activate iwind
 git clone https://github.com/linjunfuzju/iwind.git
-cd Iwind
+cd iwind
 pip install -r requirements.txt
 cd llm_backend
 pip install -r requirements.txt
